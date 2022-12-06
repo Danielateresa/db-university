@@ -85,7 +85,7 @@ WHERE `departments`.`name` = 'Dipartimento di Neuroscienze' AND `degrees`.`level
 
 3. Selezionare tutti i corsi in cui insegna Fulvio Amato (id=44)
 ```sql
-SELECT `courses`.`id`,`courses`.`name`,`courses`.`period`,`courses`.`description`,`courses`.`year`,`courses`.`cfu`,`courses`.`website`, `teachers`.`id`,`teachers`.`name`,`teachers`.`surname`
+SELECT `courses`.`id` as `course_id`,`courses`.`name`  as `course_name`,`courses`.`period` as `course_period`,`courses`.`description` as `course_description`,`courses`.`year` as `course_year`,`courses`.`cfu`,`courses`.`website` as `course_website`, `teachers`.`id` as `teachers_id`,`teachers`.`name` as `teachers_name`,`teachers`.`surname` as `teachers_surname`
 FROM `course_teacher`
 JOIN `teachers`
 ON `course_teacher`.`teacher_id` = `teachers`.`id`
@@ -96,16 +96,18 @@ WHERE `teachers`.`id` = 44;
 
 4. Selezionare tutti gli studenti con i dati relativi al corso di laurea a cui sono iscritti e il relativo dipartimento, in ordine alfabetico per cognome e nome
 ```sql
-SELECT `students`.`id`,`students`.`surname`,`students`.`name`, `degrees`.`id`,`degrees`.`id`,`degrees`.`name`,`degrees`.`level`,`degrees`.`id`,`degrees`.`address`,`degrees`.`id`,`degrees`.`email`,`degrees`.`website`,`degrees`.`department_id` 
+SELECT `students`.`id` as `student_id`,`students`.`surname` as `student_surname`,`students`.`name` as `student_name`, `degrees`.`id` as `degree_id`,`degrees`.`name` as `degree_name`,`degrees`.`level` as `degree_level`,`degrees`.`address` as `degree_address`,`degrees`.`email` as `degree_email`,`degrees`.`website` as `degree_website`,`degrees`.`department_id` as `department_id`, `departments`.`name` as `department_name`
 FROM `students` 
 JOIN `degrees` 
 ON `students`.`degree_id` = `degrees`.`id` 
+JOIN `departments`
+ON `degrees`.`department_id` = `departments`.`id` 
 ORDER BY `students`.`surname`, `students`.`name`;
 ```
 
 5. Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti
 ```sql
-SELECT `degrees`.`id` as `degrees_id`,`degrees`.`name` as `degrees_name`, `courses`.`id` as `courses_id`,`courses`.`name` as `courses_name`,`teachers`.`id` as `teachers_id`,`teachers`.`name` as `teachers_name`,`teachers`.`surname` as `teachers_surname` 
+SELECT `degrees`.`id` as `degree_id`,`degrees`.`name` as `degree_name`, `courses`.`id` as `course_id`,`courses`.`name` as `course_name`,`teachers`.`id` as `teacher_id`,`teachers`.`name` as `teacher_name`,`teachers`.`surname` as `teacher_surname` 
 FROM `course_teacher` 
 JOIN `teachers` 
 ON `course_teacher`.`teacher_id` = `teachers`.`id` 
@@ -117,7 +119,7 @@ ON `courses`.`degree_id` = `degrees`.`id`;
 
 6. Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54)
 ```sql
-SELECT DISTINCT `teachers`.`id` as `teachers_id`, `teachers`.`name` as `teachers_name`, `teachers`.`surname` as `teachers_surname`, `departments`.`id` as `department_id`, `departments`.`name` as `department_name` 
+SELECT DISTINCT `teachers`.`id` as `teacher_id`, `teachers`.`name` as `teacher_name`, `teachers`.`surname` as `teacher_surname`, `departments`.`id` as `department_id`, `departments`.`name` as `department_name` 
 FROM `course_teacher` 
 JOIN `teachers` 
 ON `course_teacher`.`teacher_id` = `teachers`.`id` 
