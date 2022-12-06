@@ -131,3 +131,15 @@ JOIN `departments`
 ON `degrees`.`department_id` = `departments`.`id` 
 WHERE `departments`.`name` = 'Dipartimento di Matematica';
 ```
+
+7. BONUS: Selezionare per ogni studente quanti tentativi d’esame ha sostenuto per superare ciascuno dei suoi esami
+NON ANCORA COMPLETATO
+```sql
+SELECT `students`.`id` as `student_id`,`students`.`surname` as `student_surname`,`students`.`name` as `student_name`, `exams`.`id` as `exam_id`, `exam_student`.`vote`
+FROM `exam_student` 
+JOIN `students`
+ON `exam_student`.`student_id` = `students`.`id`
+JOIN `exams`
+ON `exam_student`.`exam_id` = `exams`.`id` 
+WHERE `exam_student`.`vote` >= 18;
+```
